@@ -65,16 +65,57 @@ const createProduct = async (req,res) => {
     
 }
 
-const deleteProduct = async (req,res)=>{
+/* const deleteProduct = async (req,res)=>{
     const msj ="Has enviado un DELETE para borrar product";
     console.log(msj);
     res.json({"message":msj});
+} */
+
+
+
+/* const editProduct = async (req, res) => {
+    let titulo = req.query.title
+    console.log(titulo);
+    if (titulo) { // con title
+        
+        let newTitle = req.body.title
+        try {
+            Product.findOne({ title: titulo }, function (err, doc){
+                doc.title = newTitle;
+                console.log(doc);
+                //doc.visits.$inc();
+                doc.save();
+            });
+            
+        res.status(200).json({
+                msj: "Producto actualizado " 
+        });  
+            
+        }
+        catch (err) {
+        
+            res.status(400).json({
+                msj: err.message
+        });
+        }
+    } else{
+        res.status(400).json({
+            msj: "Es necesario introducir el nombre del producto para actualizarlo"
+    });
 }
+} */
+
+
+
+
+
+
+
 module.exports = {
     getProducts,
     createProduct,
-    deleteProduct
-    //editProduct,
+    /* deleteProduct,
+    editProduct, */
     
 }
 

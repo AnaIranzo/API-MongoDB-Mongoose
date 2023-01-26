@@ -4,17 +4,16 @@
 const Provider = require('../models/providers')
 
 const getProviders = async (req,res) => {
-    if (req.params.id) { // con ID
+    if (req.params.company) { // con company
         try {
             
-            let provider = await Provider.find({id:req.params.id},'-_id -__v'); // find({})devuelve por id menos los especificados despues de la coma (proyeccion)
+            let provider = await Provider.find({company_name: req.params.company},'-_id -__v'); // find({})devuelve por id menos los especificados despues de la coma (proyeccion)
             //let products = await Provider.find({}, {"_id" : 0,"__v":0}); // otra manera con 0 le indicamos que no lo muestre 1 que si
             if (provider.length > 0){
                 res.status(200).json(provider[0]); // Respuesta de la API para 1 proveedor, no un array de objetos
             }else{
-                res.status(404).json({msj: "proveedor no encontrado con ID"  + req.params.id});
+                res.status(404).json({msj: "proveedor no encontrado con ID"  + req.params.company});
             }
-
             
         }
         catch (err) {
@@ -61,16 +60,58 @@ const createProvider = async (req,res) => {
     });
     }
     
-
-    
 }
 
-/* const deleteProvider = async (req,res)=>{
-    const msj ="Has enviado un DELETE para borrar un proveedor";
-    console.log(msj);
-    res.json({"message":msj});
-}
- */
+
+const editProvider = async (req, res) => {
+    if (req.params.id) {
+    // con _id --> title no funciona
+    console.log(req.params.id);
+    try {
+        /*  var conditions = {title: req.params.title};
+            Product.updateOne(conditions, req.body)
+            .then(doc => {
+                if(!doc){return res.status(404).end();}
+                return res.status(200).json(doc)
+                }) */
+        const filter = { _id: req.params.id };
+        const update = { company_name: req.body.company_name,
+                        CIF: req.body.CIF,
+                        address: req.body.address,
+                        url_web: req.body.url_web,                                      };
+
+        const doc = await Provider.findOneAndUpdate(filter, update);
+        let response = await doc.save();
+        res.status(200).json({
+            msj: "Proveedor actualizado " + response._id,
+        });
+    } catch (err) {
+        res.status(400).json({
+            msj: err.message,
+        });
+    }
+    } else {
+    res.status(400).json({
+        msj: "Es necesario introducir el ID del proveedor para actualizarlo",
+    });
+    }
+}; 
+
+const deleteProvider = async (req,res)=>{
+    Provider.findOneAndDelete({_id: req.body.id }, function (err, docs) {
+      if (err){
+        res.status(400).json({
+            msj: err.message,
+        });
+      }
+      else{
+        res.status(200).json({
+            msj: "Proveedor borrado : "+ docs,
+        });
+          
+      }
+  });
+  } 
 
 
 
@@ -79,8 +120,9 @@ const createProvider = async (req,res) => {
 module.exports = {
     getProviders,
     createProvider,
-    //deleteProvider
-    //editProduct,
+    editProvider,
+    deleteProvider
+    
     
 }
 

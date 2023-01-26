@@ -32,7 +32,7 @@ const objectSchema = {
         }
     },
     provider:{
-        type: String, ref: "Provider" ,
+        type: mongoose.Schema.Types.ObjectId, ref: "Providers" ,
         
     }
 

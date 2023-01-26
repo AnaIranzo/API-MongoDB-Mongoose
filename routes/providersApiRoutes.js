@@ -3,11 +3,11 @@ const checkApiKey = require('../middlewares/auth_api_key')
 const providersApiController = require('../controllers/providersApiController')
 const providersApiRouter = express.Router();
 
-// Rutas de API de productos
+// Rutas de API de providers
 
-// GET http://localhost:3000/api/providers/3
-// GET http://localhost:3000/api/providers/4
-// GET http://localhost:3000/api/providers
+// GET http://localhost:3000/api/providers/
+// GET http://localhost:3000/api/providers/Teatro Marquina
+// GET http://localhost:3000/api/providers/Rice
 providersApiRouter.get('/:company?',providersApiController.getProviders);
 
 /*Objeto de prueba para crear*/
@@ -22,11 +22,15 @@ providersApiRouter.get('/:company?',providersApiController.getProviders);
 */
 
 // POST http://localhost:3000/api/providers?API_KEY=123abc
-
 providersApiRouter.post('/',checkApiKey,providersApiController.createProvider);
 
+//PUT
+//http://localhost:3000/api/provider/63d1511aa2244adfe4a35c16?API_KEY=123abc --> _id
+providersApiRouter.put('/:id',checkApiKey,providersApiController.editProvider);
+
 // DELETE
-//providersApiRouter.delete('/',checkApiKey, providersApiController.deleteProvider);
+//http://localhost:3000/api/providers?API_KEY=123abc
+providersApiRouter.delete('/',checkApiKey, providersApiController.deleteProvider);
 
 
 module.exports = providersApiRouter;

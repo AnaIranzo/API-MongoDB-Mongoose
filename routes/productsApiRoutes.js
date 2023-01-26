@@ -26,10 +26,15 @@ productsApiRouter.get('/:title?',productsApiController.getProducts);
 productsApiRouter.post('/',checkApiKey,productsApiController.createProduct);
 
 //PUT
-productsApiRouter.put('/',checkApiKey,productsApiController.editProduct);
+//http://localhost:3000/api/products/63d27461cce94c2b6190b659?API_KEY=123abc --> _id
+productsApiRouter.put('/:id',checkApiKey,productsApiController.editProduct);
 
 // DELETE
-//productsApiRouter.delete('/',checkApiKey, productsApiController.deleteProduct);
+//http://localhost:3000/api/products/?API_KEY=123abc
+productsApiRouter.delete('/',checkApiKey, productsApiController.deleteProduct);
+/* {
+    "id":"63d27461cce94c2b6190b65a"
+  } */
 
 
 module.exports = productsApiRouter;

@@ -63,36 +63,39 @@ const createProduct = async (req, res) => {
   }
 };
 
-/* const deleteProduct = async (req,res)=>{
-    const msj ="Has enviado un DELETE para borrar product";
-    console.log(msj);
-    res.json({"message":msj});
-} */
+const deleteProduct = async (req,res)=>{
+  Product.findOneAndDelete({_id: req.body.id }, function (err, docs) {
+    if (err){
+      res.status(400).json({
+          msj: err.message,
+      });
+    }
+    else{
+      res.status(200).json({
+          msj: "Producto borrado : "+ docs,
+      });
+        
+    }
+});
+} 
+
 
 const editProduct = async (req, res) => {
-  let { title, newTitle } = req.body
-  console.log(title);
-  if (title) {
-    // con title
-
-    
-    console.log(newTitle);
-    try {
-        /*    Product.find({ title }, async function (err, doc){
-                doc.overwrite({ title: newTitle })
-                console.log(doc);
-                //doc.visits.$inc();
-                await doc.save();
-            }); */
-            const filter = {title}
-            const update = {newTitle}
+  
+  if (req.params.id) {
+    // con _id --> title no funciona
+    console.log(req.params.id);
+      try {
+            const filter = {_id: req.params.id}
+            console.log(filter);
+            const update = {title : req.body.title}
+            console.log(update);
             const doc = await Product.findOneAndUpdate(filter,update);
-            const newDoc = await Product.find(update)
-
-
+            let response = await doc.save();
+            
         res.status(200).json({
-            msj: "Producto actualizado " + newDoc,
-        });
+            msj: "Producto actualizado " + response.title,
+        }); 
     } catch (err) {
         res.status(400).json({
             msj: err.message,
@@ -100,15 +103,15 @@ const editProduct = async (req, res) => {
     }
     } else {
         res.status(400).json({
-        msj: "Es necesario introducir el nombre del producto para actualizarlo",
+        msj: "Es necesario introducir el ID del producto para actualizarlo",
     });
     }
-};
+}; 
 
 module.exports = {
   getProducts,
   createProduct,
-  //deleteProduct,
+  deleteProduct,
   editProduct,
 };
 

@@ -8,7 +8,7 @@ const productsApiRouter = express.Router();
 // GET http://localhost:3000/api/products/3
 // GET http://localhost:3000/api/products/4
 // GET http://localhost:3000/api/products
-productsApiRouter.get('/:id?',productsApiController.getProducts);
+productsApiRouter.get('/:title?',productsApiController.getProducts);
 
 /*Objeto de prueba para crear*/
 /*
@@ -26,7 +26,7 @@ productsApiRouter.get('/:id?',productsApiController.getProducts);
 productsApiRouter.post('/',checkApiKey,productsApiController.createProduct);
 
 //PUT
-//productsApiRouter.put('/',checkApiKey,productsApiController.editProduct);
+productsApiRouter.put('/',checkApiKey,productsApiController.editProduct);
 
 // DELETE
 //productsApiRouter.delete('/',checkApiKey, productsApiController.deleteProduct);

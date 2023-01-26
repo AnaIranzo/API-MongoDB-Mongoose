@@ -4,15 +4,15 @@
 const Provider = require('../models/providers')
 
 const getProviders = async (req,res) => {
-    if (req.params.id) { // con ID
+    if (req.params.company) { // con company
         try {
             
-            let provider = await Provider.find({id:req.params.id},'-_id -__v'); // find({})devuelve por id menos los especificados despues de la coma (proyeccion)
+            let provider = await Provider.find({company_name: req.params.company},'-_id -__v'); // find({})devuelve por id menos los especificados despues de la coma (proyeccion)
             //let products = await Provider.find({}, {"_id" : 0,"__v":0}); // otra manera con 0 le indicamos que no lo muestre 1 que si
             if (provider.length > 0){
                 res.status(200).json(provider[0]); // Respuesta de la API para 1 proveedor, no un array de objetos
             }else{
-                res.status(404).json({msj: "proveedor no encontrado con ID"  + req.params.id});
+                res.status(404).json({msj: "proveedor no encontrado con ID"  + req.params.company});
             }
 
             
